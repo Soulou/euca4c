@@ -15,7 +15,7 @@
  * ----------------------------------------------------------------------------
  */
 
-#include "euca_binding.h"
+#include "euca4c.h"
 
 int euca_run_instance(
     char * keyname,

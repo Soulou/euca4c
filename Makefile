@@ -13,7 +13,7 @@ test: $(TEST_EXEC)
 .c.o:
 	$(CC) -fPIC $(CFLAGS) $^ -c -o $@
 
-$(LIB): euca_binding.o
+$(LIB): euca4c.o
 	$(CC) -shared -Wl $^ $(LDFLAGS) -o $@ 
 
 $(TEST_EXEC): $(TEST_EXEC).c
