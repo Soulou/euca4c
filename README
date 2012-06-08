@@ -1,0 +1,9 @@
+Small binding in C to use eucalyptus scripts
+
+Changelog :
+  - euca_run_instance(keyname, addressing_type, image_id)
+     → The VM boots !
+
+Work In Progress :
+  - euca_run_instance(keyname, addressing_type, image_id)
+     → Return the identifier of the VM
