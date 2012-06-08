@@ -133,7 +133,8 @@ def euca_run_instance(argv=None):
         except Exception, ex:
             euca.display_error_and_exit('%s' % ex)
 
-        display_reservations(reservation)
+        #display_reservations(reservation)
+        return reservation
     else:
         print 'image_id must be specified'
 

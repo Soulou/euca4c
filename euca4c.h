@@ -26,7 +26,13 @@ typedef PyObject PyModule;
 typedef PyObject PyFunc;
 typedef PyObject PyTuple;
 
-int euca_run_instance(
+typedef struct euca_instance_t
+{
+    char * id;
+    char * ip;
+} euca_instance_t;
+
+euca_instance_t * euca_run_instance(
     char * keyname,
     char * addressing_type,
     char * image_id);

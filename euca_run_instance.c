@@ -22,7 +22,8 @@
 
 int main(int argc, char ** argv)
 {
-  euca_run_instance("leo", "private", "emi-A98314BC");
+  euca_instance_t * vm = euca_run_instance("leo", "private", "emi-A98314BC");
+  printf("id : %s\n", vm->id); //, IP : %s\n", vm->id, vm->ip);
   return 0;
 }
 

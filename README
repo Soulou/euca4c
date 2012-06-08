@@ -7,4 +7,4 @@ Changelog :
 
 Work In Progress :
   - euca_run_instance(keyname, addressing_type, image_id)
-     → Return the identifier of the VM
+     → Return the identifier of the VM (char *)

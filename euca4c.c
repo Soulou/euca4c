@@ -15,13 +15,16 @@
  * ----------------------------------------------------------------------------
  */
 
+#include <stdlib.h>
 #include "euca4c.h"
 
-int euca_run_instance(
+euca_instance_t * euca_run_instance(
     char * keyname,
     char * addressing_type,
     char * image_id)
 {
+    euca_instance_t * vm = malloc(sizeof(euca_instance_t));
+
     Py_Initialize();
     PyList * path = PySys_GetObject("path");
     PyString * cur_dir = PyString_FromString(".");
@@ -36,7 +39,7 @@ int euca_run_instance(
     if(!module)
     {
       PyErr_Print();
-      return 1;
+      return NULL;
     }
 
     // INCREF has been done in PyString_FromString
@@ -62,16 +65,16 @@ int euca_run_instance(
     if(f_run_inst && PyCallable_Check(f_run_inst))
     {
         int argc = 4;
-        char * c_argv[4] = {"./testmain", keyname, addressing_type, image_id};
+        char * c_argv[4] = {"noname" , keyname, addressing_type, image_id};
         PySys_SetArgv(argc, c_argv);
 
-        PyObject * ret;
+        PyObject * reservation;
         PyTuple_SetItem(argv, 0, argv_list);
-        ret = PyObject_CallObject(f_run_inst, argv);
-        if(!ret)
+        reservation = PyObject_CallObject(f_run_inst, argv);
+        if(!reservation)
         {
           PyErr_Print();
-          return 1;
+          return NULL;
         }
 
         Py_DECREF(pykeyname);
@@ -79,14 +82,37 @@ int euca_run_instance(
         Py_DECREF(pyimageid);
         Py_DECREF(argv_list);
         Py_DECREF(argv);
+
+
+        PyList * instances = PyObject_GetAttrString(reservation, "instances");
+        if(!instances)
+        {
+          PyErr_Print();
+          return NULL;
+        }
+
+        vm->id = PyString_AsString(
+                   PyObject_GetAttrString(
+                     PyList_GetItem(instances, 0),
+                     "id")
+                 );
+        /* vm->ip = PyString_AsString( */
+        /*            PyObject_GetAttrString( */
+        /*              PyList_GetItem(instances, 0), */
+        /*              "public_dns_name") */
+        /*          ); */
+
+
+        Py_DECREF(instances);
+        Py_DECREF(reservation);
     }
     else
     {
       PyErr_Print();
-      return 1;
+      return NULL;
     }
 
     Py_Finalize();
-    return 0;
+    return vm;
 }
 
