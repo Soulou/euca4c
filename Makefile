@@ -1,12 +1,41 @@
 CC=gcc
-CFLAGS=-I/usr/include/python2.7 -g
+CFLAGS=--std=c99 -Werror -Wall
 LDFLAGS=-lpython2.7
-EXEC=testmain
+CTESTFLAGS=--std=c99 -I. -Werror -Wall
+LDTESTFLAGS=-L. -leuca4c
+LIB=libeuca4c.so
+TEST_EXEC=euca_run_instance
 
-all: $(EXEC)
+all: $(LIB)
+
+test: $(TEST_EXEC)
 
 .c.o:
-	$(CC) $(CFLAGS) $^ -c -o $@
+	$(CC) -fPIC $(CFLAGS) $^ -c -o $@
 
-$(EXEC): euca_binding.o
-	$(CC) $^ $(LDFLAGS) -o $@ 
+$(LIB): euca_binding.o
+	$(CC) -shared -Wl $^ $(LDFLAGS) -o $@ 
+
+$(TEST_EXEC): $(TEST_EXEC).c
+	$(CC) $(CTESTFLAGS) -c $^ -o $@.o
+	$(CC) $@.o -o $@ $(LDTESTFLAGS) 
+
+clean:
+	@rm $(LIB) $(TEST_EXEC) *.o *.pyc 2>/dev/null || true
+	@echo "Cleaning data"
+
+install: $(LIB)
+	install -m644 $(LIB) /usr/local/lib 
+	install -m644 euca_run_instance.py /usr/local/lib/python2.7/dist-packages/ 
+	install -m644 euca_binding.h /usr/local/include/ 
+
+install_test: install $(LIB)
+	install -m755 $(TEST_EXEC) /usr/local/bin 
+
+install_all: install install_test 
+
+uninstall:
+	rm /usr/local/lib/$(LIB)
+	rm /usr/local/bin/$(TEST_EXEC)
+	rm /usr/local/lib/python2.7/euca_run_instance.py 
+	rm /usr/local/include/euca_binding.h

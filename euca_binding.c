@@ -22,8 +22,6 @@ int euca_run_instance(
     char * addressing_type,
     char * image_id)
 {
-    int i;
-
     Py_Initialize();
     PyList * path = PySys_GetObject("path");
     PyString * cur_dir = PyString_FromString(".");
@@ -89,10 +87,6 @@ int euca_run_instance(
     }
 
     Py_Finalize();
+    return 0;
 }
 
-int main(int argc, char * argv)
-{
-  euca_run_instance("leo", "private", "emi-A98314BC");
-  return 0;
-}

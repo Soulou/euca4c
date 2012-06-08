@@ -18,7 +18,7 @@
 #ifndef _EUCA_BINDING_H
 #define _EUCA_BINDING_H
 
-#include <Python.h>
+#include <python2.7/Python.h>
 
 typedef PyObject PyList;
 typedef PyObject PyString;
@@ -26,7 +26,7 @@ typedef PyObject PyModule;
 typedef PyObject PyFunc;
 typedef PyObject PyTuple;
 
-int euca_run_instances(
+int euca_run_instance(
     char * keyname,
     char * addressing_type,
     char * image_id);
