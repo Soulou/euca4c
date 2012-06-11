@@ -45,5 +45,6 @@ int euca_terminate_instances(
     euca_instance_t ** instances, size_t nb);
 
 euca_instance_t ** euca_describe_instances();
+size_t euca_nb_instances();
 
 #endif

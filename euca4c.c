@@ -196,3 +196,48 @@ euca_instance_t ** euca_describe_instances()
   Py_Finalize();
   return c_instances;
 }
+
+size_t euca_nb_instances()
+{
+  Py_Initialize();
+  PyList * instances = PyList_New(0);
+  PyList * r_instances;
+  PyList * reservations;
+  PyObject * reservation;
+  PyObject * instance;
+  int i,j,nb_instances;
+  
+  char * argv[1] = {"noname"};
+  PySys_SetArgv(1, argv);
+
+  PyModule * m = py_load_module("euca_describe_instances");
+  if(!m) return -1;
+
+  PyFunc * f = PyObject_GetAttrString(m, "euca_describe_instances");
+  if(f && PyCallable_Check(f))
+  {
+      reservations = PyObject_CallObject(f, NULL);
+      if(!reservations) return -1;
+  }
+  else
+      return -1;
+
+  for(i = 0; i < PyList_Size(reservations); i++)
+  {
+      reservation = PyList_GetItem(reservations, i);
+      r_instances = PyObject_GetAttrString(reservation, "instances");
+      nb_instances = PyList_Size(r_instances);
+      if(nb_instances < 0)
+          PyErr_Print();
+
+      for(j = 0; j < nb_instances; j++)
+      {
+          instance = PyList_GetItem(r_instances, j);
+          PyList_Append(instances, instance);
+      }
+  }
+
+  size_t res = PyList_Size(instances);
+  Py_Finalize();
+  return res;
+}

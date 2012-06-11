@@ -33,6 +33,8 @@ int main(int argc, char ** argv)
     instances++;
   }
 
+  printf("Il y a %u instances.\n", (unsigned int)euca_nb_instances());
+
   return 0;
 }
 
