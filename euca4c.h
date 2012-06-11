@@ -26,16 +26,22 @@ typedef PyObject PyModule;
 typedef PyObject PyFunc;
 typedef PyObject PyTuple;
 
+// Structure which must represent an vm instance 
 typedef struct euca_instance_t
 {
     char * id;
     char * ip;
 } euca_instance_t;
 
+// Create a new VM
 euca_instance_t * euca_run_instance(
     char * keyname,
     char * addressing_type,
     char * image_id);
 
-#endif
+// Terminate multiple of VM 
+int euca_terminate_instances(
+    euca_instance_t ** instances, size_t nb);
 
+
+#endif

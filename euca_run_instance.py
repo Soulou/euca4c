@@ -79,7 +79,7 @@ def read_user_data(user_data_filename):
     return user_data
 
 
-def euca_run_instance(argv=None):
+def euca_run_instance():
     euca = None
     try:
         euca = Euca2ool()
@@ -87,8 +87,8 @@ def euca_run_instance(argv=None):
         print e
         sys.exit(1)
 
-    image_id = argv[2]
-    keyname = argv[0]
+    image_id = sys.argv[3]
+    keyname = sys.argv[1]
     kernel_id = None
     ramdisk_id = None
     min_count = 1
@@ -97,7 +97,7 @@ def euca_run_instance(argv=None):
     group_names = []
     user_data = None
     user_data_file = None
-    addressing_type = argv[1]
+    addressing_type = sys.argv[2]
     zone = None
     block_device_map_args = []
     block_device_map = None
