@@ -30,6 +30,7 @@ typedef PyObject PyTuple;
 typedef struct euca_instance_t
 {
     char * id;
+    char * state;
     char * ip;
 } euca_instance_t;
 
@@ -43,5 +44,6 @@ euca_instance_t * euca_run_instance(
 int euca_terminate_instances(
     euca_instance_t ** instances, size_t nb);
 
+euca_instance_t ** euca_describe_instances();
 
 #endif

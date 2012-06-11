@@ -23,6 +23,7 @@ install: $(LIB)
 	install -m644 $(LIB) /usr/local/lib 
 	install -m644 euca_run_instance.py /usr/local/lib/python2.7/dist-packages/ 
 	install -m644 euca_terminate_instances.py /usr/local/lib/python2.7/dist-packages/ 
+	install -m644 euca_describe_instances.py /usr/local/lib/python2.7/dist-packages/ 
 	install -m644 euca4c.h /usr/local/include/ 
 
 install_all: install 
@@ -33,4 +34,5 @@ uninstall:
 	rm /usr/local/lib/$(LIB)
 	rm /usr/local/lib/python2.7/euca_run_instance.py 
 	rm /usr/local/lib/python2.7/euca_terminate_instances.py 
+	rm /usr/local/lib/python2.7/euca_describe_instances.py 
 	rm /usr/local/include/euca4c.h

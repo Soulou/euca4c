@@ -22,8 +22,17 @@
 
 int main(int argc, char ** argv)
 {
-  euca_instance_t * vm = euca_run_instance("leo", "private", "emi-54E61346");
-  printf("id : %s\n", vm->id); //, IP : %s\n", vm->id, vm->ip);
+  euca_instance_t ** instances = euca_describe_instances();
+  if(instances == NULL)
+    fprintf(stderr, "Erreur, instances NULL\n");
+  while(*instances != NULL)
+  {
+    printf("Instance : %s\n", (*instances)->id);
+    printf("\tÉtat : %s\n", (*instances)->state);
+    printf("\tIP : %s\n", (*instances)->ip);
+    instances++;
+  }
+
   return 0;
 }
 
