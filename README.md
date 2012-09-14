@@ -2,7 +2,7 @@ Small binding in C to use eucalyptus scripts euca2ools
 
 ## Changelog :
 ```c
-char * euca_run_instance(char * keyname, char * addressing_type, char * image_id)
+euca_instance_t * euca_run_instance(char * keyname, char * addressing_type, char * image_id)
 ```
 * Boot a VM
 * Return the identifier of the VM     
